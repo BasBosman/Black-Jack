@@ -8,16 +8,6 @@ public class BlackJack {
 		Deck deck = new Deck();
 		deck.fillDeck();
 		Card c1 = deck.drawCard();
-
-		//Scanner scanner = new Scanner(System.in);
-		//System.out.println("What will you play?");
-		//outpt = scanner.nextLine();
-		//System.out.println(outpt);
-		//System.out.println("What will you play?");
-		//outpt = scanner.nextLine();
-		//System.out.println(outpt);
-		
-		//scanner.close();
 		
 		//////////////////
 		//Play the game://
@@ -109,6 +99,8 @@ public class BlackJack {
 			dealerHasBlackJack = true;
 		}
 		
+		waitabit();
+		
 		//Now the game really starts :)
 		while (playersLeft > 0) {
 			//do something
@@ -160,6 +152,7 @@ public class BlackJack {
 					System.out.println("Dealer has Black Jack. All players lose. ");
 					playersLeft = 0;
 					players.get(0).isDead = true;
+					players.get(0).stillPlaying = false;
 					for (int i = 1; i < aantalSpelers; i++) {
 						if (!players.get(i).isDead) {
 							players.get(i).money -= bet;
@@ -168,6 +161,9 @@ public class BlackJack {
 				}
 				hiddenCard = null;
 			}
+			
+			waitabit();
+			
 			//if dealer has not 17 points, he draws another card. Else he passes.
 			if (players.get(0).handValue < 17 || (players.get(0).handValue > 21 && (players.get(0).handValue - 10*players.get(0).aceCount) < 17)) { //or max value is higher than 21 and min value lower than 17
 				drawnCard = deck.drawCard();
@@ -218,7 +214,12 @@ public class BlackJack {
 	}
 	scanner.close();
 	for (int i = 1; i < aantalSpelers; i++) {
-		System.out.println(players.get(i).name +  " has won " + players.get(i).money + " money!");
+		if (players.get(i).money >= 0) {
+			System.out.println(players.get(i).name +  " has won " + players.get(i).money + " money!");
+		}
+		else {
+			System.out.println(players.get(i).name +  " has lost " + -1*players.get(i).money + " money!");
+		}
 	}
 	
 	}
@@ -274,7 +275,7 @@ public class BlackJack {
 		  }
 	}
 	public static void PlayerFinalPts(Player player) {
-		while (player.handValue > 21 && player.aceCount > 1) {
+		while (player.handValue > 21 && player.aceCount >= 1) {
 			player.handValue -= 10;
 			player.aceCount -= 1;
 		}

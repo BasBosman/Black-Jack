@@ -21,8 +21,6 @@ public class Deck {
 			deck.add(ordered_deck.get(pos2));
 			ordered_deck.remove(pos2);
 		}
-
-		System.out.println(deck.size());
 		
 	}
 	public void refillDeck() {
